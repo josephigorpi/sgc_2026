@@ -1,0 +1,6 @@
+graph TB
+    A[Usuario] -->|Navegador Web| B[Frontend Next.js]
+    B -->|API REST| C[Backend Express.js]
+    C -->|ORM| D[(PostgreSQL)]
+    C -->|Generar PDF| E[Puppeteer]
+    C -->|Webhooks| F[n8n]

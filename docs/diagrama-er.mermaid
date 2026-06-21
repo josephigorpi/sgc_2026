@@ -1,0 +1,74 @@
+erDiagram
+    USUARIO ||--o{ DOCUMENTO : crea
+    USUARIO ||--o{ PROCESO : define
+    USUARIO ||--o{ ACREDITACION : gestiona
+    USUARIO ||--o{ AUDITORIA : realiza
+    USUARIO ||--o{ CAPA : implementa
+    USUARIO ||--o{ RIESGO : identifica
+    USUARIO ||--o{ INDICADOR : monitorea
+    USUARIO ||--o{ ENCUESTA : aplica
+
+    USUARIO {
+        int id PK
+        string nombre
+        string email
+        string password
+        string rol
+    }
+
+    DOCUMENTO {
+        int id PK
+        string titulo
+        text contenido
+        string version
+        string estado
+    }
+
+    PROCESO {
+        int id PK
+        string nombre
+        text descripcion
+        string responsable
+    }
+
+    ACREDITACION {
+        int id PK
+        string norma
+        date fechaVencimiento
+        string estado
+    }
+
+    AUDITORIA {
+        int id PK
+        date fecha
+        string tipo
+        string resultado
+    }
+
+    CAPA {
+        int id PK
+        text descripcion
+        date fechaImplementacion
+        string estado
+    }
+
+    RIESGO {
+        int id PK
+        text descripcion
+        string nivel
+        text mitigacion
+    }
+
+    INDICADOR {
+        int id PK
+        string nombre
+        float valor
+        float meta
+    }
+
+    ENCUESTA {
+        int id PK
+        string titulo
+        date fecha
+        text resultados
+    }
