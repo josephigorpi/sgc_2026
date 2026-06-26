@@ -113,6 +113,10 @@ export const EstandarAcreditacion = sequelize.define('estandares_acreditacion', 
   vigente_desde: DataTypes.DATEONLY,
   vigente_hasta: DataTypes.DATEONLY,
   creado_por: DataTypes.UUID,
+<<<<<<< HEAD
+=======
+  modificado_por: DataTypes.UUID,
+>>>>>>> companero1/main
 }, { tableName: 'estandares_acreditacion', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
 
 // ==========================================
@@ -126,6 +130,10 @@ export const FactorCriterio = sequelize.define('factores_criterio', {
   descripcion: DataTypes.TEXT,
   peso: DataTypes.DECIMAL(5, 2),
   creado_por: DataTypes.UUID,
+<<<<<<< HEAD
+=======
+  modificado_por: DataTypes.UUID,
+>>>>>>> companero1/main
 }, { tableName: 'factores_criterio', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
 
 // ==========================================
@@ -140,6 +148,10 @@ export const Autoevaluacion = sequelize.define('autoevaluaciones', {
   estado: { type: DataTypes.STRING(20), defaultValue: 'en_proceso' },
   puntaje_total: DataTypes.DECIMAL(5, 2),
   creado_por: DataTypes.UUID,
+<<<<<<< HEAD
+=======
+  modificado_por: DataTypes.UUID,
+>>>>>>> companero1/main
 }, { tableName: 'autoevaluaciones', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
 
 // ==========================================
@@ -229,6 +241,26 @@ export const Riesgo = sequelize.define('riesgos', {
 }, { tableName: 'riesgos', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
 
 // ==========================================
+<<<<<<< HEAD
+=======
+// PLAN MITIGACION
+// ==========================================
+export const PlanMitigacion = sequelize.define('planes_mitigacion', {
+  id: { type: DataTypes.UUID, primaryKey: true, defaultValue: UUIDV4 },
+  riesgo_id: { type: DataTypes.UUID, allowNull: false },
+  codigo: { type: DataTypes.STRING(50), unique: true, allowNull: false },
+  nombre: { type: DataTypes.STRING(200), allowNull: false },
+  descripcion: DataTypes.TEXT,
+  acciones: DataTypes.TEXT,
+  responsable_id: DataTypes.UUID,
+  fecha_limite: DataTypes.DATEONLY,
+  estado: { type: DataTypes.STRING(20), defaultValue: 'pendiente' },
+  creado_por: DataTypes.UUID,
+  modificado_por: DataTypes.UUID,
+}, { tableName: 'planes_mitigacion', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
+
+// ==========================================
+>>>>>>> companero1/main
 // INDICADOR
 // ==========================================
 export const Indicador = sequelize.define('indicadores', {
@@ -259,6 +291,10 @@ export const MedicionIndicador = sequelize.define('mediciones_indicador', {
   cumplimiento: DataTypes.DECIMAL(5, 2),
   analisis_tendencia: DataTypes.TEXT,
   creado_por: DataTypes.UUID,
+<<<<<<< HEAD
+=======
+  modificado_por: DataTypes.UUID,
+>>>>>>> companero1/main
 }, { tableName: 'mediciones_indicador', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
 
 // ==========================================
@@ -288,6 +324,11 @@ export const PreguntaEncuesta = sequelize.define('preguntas_encuesta', {
   tipo: DataTypes.STRING(30),
   orden: { type: DataTypes.INTEGER, allowNull: false },
   obligatoria: { type: DataTypes.BOOLEAN, defaultValue: true },
+<<<<<<< HEAD
+=======
+  creado_por: DataTypes.UUID,
+  modificado_por: DataTypes.UUID,
+>>>>>>> companero1/main
 }, { tableName: 'preguntas_encuesta', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
 
 // ==========================================
@@ -300,7 +341,14 @@ export const RespuestaEncuesta = sequelize.define('respuestas_encuesta', {
   usuario_id: DataTypes.UUID,
   valor_texto: DataTypes.TEXT,
   valor_numerico: DataTypes.DECIMAL(10, 2),
+<<<<<<< HEAD
 }, { tableName: 'respuestas_encuesta', schema: 'sgc', timestamps: true, createdAt: 'enviado_en', updatedAt: false });
+=======
+  enviado_en: DataTypes.DATE,
+  creado_por: DataTypes.UUID,
+  modificado_por: DataTypes.UUID,
+}, { tableName: 'respuestas_encuesta', schema: 'sgc', timestamps: true, createdAt: 'creado_en', updatedAt: 'modificado_en' });
+>>>>>>> companero1/main
 
 // ==========================================
 // RELACIONES
@@ -311,6 +359,10 @@ Documento.belongsTo(Proceso, { foreignKey: 'proceso_id', as: 'proceso' });
 Documento.belongsTo(TipoDocumento, { foreignKey: 'tipo_documento_id', as: 'tipo' });
 ActividadProceso.belongsTo(Proceso, { foreignKey: 'proceso_id', as: 'proceso' });
 
+<<<<<<< HEAD
+=======
+PlanAuditoria.hasMany(Hallazgo, { foreignKey: 'plan_id', as: 'hallazgos' });
+>>>>>>> companero1/main
 Hallazgo.belongsTo(PlanAuditoria, { foreignKey: 'plan_id', as: 'plan' });
 Hallazgo.belongsTo(Proceso, { as: 'area_proceso', foreignKey: 'area_proceso_id' });
 
@@ -318,6 +370,7 @@ Capa.belongsTo(Hallazgo, { foreignKey: 'hallazgo_id', as: 'hallazgo' });
 Capa.belongsTo(Usuario, { as: 'responsable', foreignKey: 'responsable_id' });
 
 Riesgo.belongsTo(Proceso, { foreignKey: 'proceso_id', as: 'proceso' });
+<<<<<<< HEAD
 Indicador.belongsTo(Proceso, { foreignKey: 'proceso_id', as: 'proceso' });
 MedicionIndicador.belongsTo(Indicador, { foreignKey: 'indicador_id', as: 'indicador' });
 
@@ -326,5 +379,22 @@ EvaluacionCriterio.belongsTo(Autoevaluacion, { foreignKey: 'autoevaluacion_id', 
 EvaluacionCriterio.belongsTo(FactorCriterio, { foreignKey: 'factor_id', as: 'factor' });
 
 PreguntaEncuesta.belongsTo(Encuesta, { foreignKey: 'encuesta_id', as: 'encuesta' });
+=======
+PlanMitigacion.belongsTo(Riesgo, { foreignKey: 'riesgo_id', as: 'riesgo' });
+Riesgo.hasMany(PlanMitigacion, { foreignKey: 'riesgo_id', as: 'planesMitigacion' });
+Indicador.belongsTo(Proceso, { foreignKey: 'proceso_id', as: 'proceso' });
+MedicionIndicador.belongsTo(Indicador, { foreignKey: 'indicador_id', as: 'indicador' });
+
+EstandarAcreditacion.hasMany(FactorCriterio, { foreignKey: 'estandar_id', as: 'factores' });
+EstandarAcreditacion.hasMany(Autoevaluacion, { foreignKey: 'estandar_id', as: 'autoevaluaciones' });
+Autoevaluacion.belongsTo(EstandarAcreditacion, { foreignKey: 'estandar_id', as: 'estandar' });
+Autoevaluacion.hasMany(EvaluacionCriterio, { foreignKey: 'autoevaluacion_id', as: 'evaluaciones' });
+EvaluacionCriterio.belongsTo(Autoevaluacion, { foreignKey: 'autoevaluacion_id', as: 'autoevaluacion' });
+EvaluacionCriterio.belongsTo(FactorCriterio, { foreignKey: 'factor_id', as: 'factor' });
+
+Encuesta.hasMany(PreguntaEncuesta, { foreignKey: 'encuesta_id', as: 'preguntas' });
+PreguntaEncuesta.belongsTo(Encuesta, { foreignKey: 'encuesta_id', as: 'encuesta' });
+PreguntaEncuesta.hasMany(RespuestaEncuesta, { foreignKey: 'pregunta_id', as: 'respuestas' });
+>>>>>>> companero1/main
 RespuestaEncuesta.belongsTo(Encuesta, { foreignKey: 'encuesta_id', as: 'encuesta' });
 RespuestaEncuesta.belongsTo(PreguntaEncuesta, { foreignKey: 'pregunta_id', as: 'pregunta' });

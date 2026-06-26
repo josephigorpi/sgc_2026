@@ -38,4 +38,21 @@ export const enviarRespuesta = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+<<<<<<< HEAD
+=======
+};
+
+export const obtenerResultados = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const encuesta = await Encuesta.findByPk(id, {
+      include: [
+        { model: PreguntaEncuesta, as: 'preguntas', include: [{ model: RespuestaEncuesta, as: 'respuestas' }] }
+      ]
+    });
+    res.json(encuesta);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+>>>>>>> companero1/main
 };

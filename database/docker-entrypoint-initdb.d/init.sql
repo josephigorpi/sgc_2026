@@ -1,16 +1,16 @@
-- ============================================================
+-- ============================================================
 -- SISTEMA DE GESTIÓN DE LA CALIDAD (SGC)
 -- UNIVERSIDAD NACIONAL DE TRUJILLO
 -- PostgreSQL 16+
 -- ============================================================
 
--- 1. EXTENSIONES
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
--- 2. ESQUEMA
+-- 1. ESQUEMA
 CREATE SCHEMA IF NOT EXISTS sgc;
 SET search_path TO sgc;
+
+-- 2. EXTENSIONES
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- ============================================================
 -- TABLAS BASE (AUDITORÍA Y SEGURIDAD)
@@ -83,7 +83,9 @@ CREATE TABLE versiones_documento (
     archivo_url VARCHAR(500),
     estado VARCHAR(20) DEFAULT 'borrador',
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE TABLE aprobaciones_documento (
@@ -93,7 +95,11 @@ CREATE TABLE aprobaciones_documento (
     aprobador_id UUID NOT NULL REFERENCES usuarios(id),
     accion VARCHAR(20) NOT NULL CHECK (accion IN ('aprobado', 'rechazado', 'observado')),
     comentario TEXT,
-    fecha_aprobacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_aprobacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 -- ============================================================
@@ -152,7 +158,9 @@ CREATE TABLE flujos_trabajo (
     definicion_json JSONB NOT NULL, -- BPMN-like JSON
     activo BOOLEAN DEFAULT TRUE,
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 -- ============================================================
@@ -168,7 +176,9 @@ CREATE TABLE estandares_acreditacion (
     vigente_desde DATE,
     vigente_hasta DATE,
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE TABLE factores_criterio (
@@ -179,7 +189,9 @@ CREATE TABLE factores_criterio (
     descripcion TEXT,
     peso DECIMAL(5,2),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE TABLE autoevaluaciones (
@@ -191,7 +203,9 @@ CREATE TABLE autoevaluaciones (
     estado VARCHAR(20) DEFAULT 'en_proceso' CHECK (estado IN ('en_proceso', 'completada', 'certificada')),
     puntaje_total DECIMAL(5,2),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE TABLE evaluaciones_criterio (
@@ -233,7 +247,10 @@ CREATE TABLE equipos_auditoria (
     plan_id UUID NOT NULL REFERENCES planes_auditoria(id) ON DELETE CASCADE,
     auditor_id UUID NOT NULL REFERENCES usuarios(id),
     rol_en_equipo VARCHAR(30) CHECK (rol_en_equipo IN ('lider', 'auditor', 'observador')),
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE TABLE hallazgos (
@@ -282,7 +299,9 @@ CREATE TABLE seguimientos_capa (
     avance DECIMAL(5,2) CHECK (avance BETWEEN 0 AND 100),
     observaciones TEXT,
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 -- ============================================================
@@ -316,14 +335,17 @@ CREATE TABLE riesgos (
 CREATE TABLE planes_mitigacion (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     riesgo_id UUID NOT NULL REFERENCES riesgos(id) ON DELETE CASCADE,
-    descripcion TEXT NOT NULL,
+    codigo VARCHAR(50) UNIQUE NOT NULL,
+    nombre VARCHAR(200) NOT NULL,
+    descripcion TEXT,
     acciones TEXT,
     responsable_id UUID REFERENCES usuarios(id),
-    fecha_inicio DATE,
-    fecha_fin DATE,
-    estado VARCHAR(20) DEFAULT 'planificado' CHECK (estado IN ('planificado', 'en_ejecucion', 'completado')),
+    fecha_limite DATE,
+    estado VARCHAR(20) DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'en_progreso', 'completado', 'cancelado')),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 -- ============================================================
@@ -358,7 +380,9 @@ CREATE TABLE mediciones_indicador (
     cumplimiento DECIMAL(5,2), -- Porcentaje
     analisis_tendencia TEXT,
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por UUID REFERENCES usuarios(id)
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 -- ============================================================
@@ -388,7 +412,10 @@ CREATE TABLE preguntas_encuesta (
     tipo VARCHAR(30) CHECK (tipo IN ('likert_5', 'likert_7', 'si_no', 'multiple', 'abierta', 'numerica')),
     orden INTEGER NOT NULL,
     obligatoria BOOLEAN DEFAULT TRUE,
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE TABLE respuestas_encuesta (
@@ -398,7 +425,11 @@ CREATE TABLE respuestas_encuesta (
     usuario_id UUID REFERENCES usuarios(id), -- NULL si es anónima
     valor_texto TEXT,
     valor_numerico DECIMAL(10,2),
-    enviado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    enviado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creado_por UUID REFERENCES usuarios(id),
+    modificado_por UUID REFERENCES usuarios(id)
 );
 
 CREATE INDEX idx_respuestas_encuesta ON respuestas_encuesta(encuesta_id, pregunta_id);
@@ -447,7 +478,7 @@ $$ LANGUAGE plpgsql;
 DO $$
 DECLARE
     tabla TEXT;
-    tablas TEXT[] := ARRAY['usuarios', 'documentos', 'procesos', 'actividades_proceso', 'autoevaluaciones', 'evaluaciones_criterio', 'planes_auditoria', 'hallazgos', 'capas', 'riesgos', 'indicadores', 'encuestas'];
+    tablas TEXT[] := ARRAY['usuarios', 'tipos_documento', 'documentos', 'versiones_documento', 'aprobaciones_documento', 'macroprocesos', 'procesos', 'actividades_proceso', 'flujos_trabajo', 'estandares_acreditacion', 'factores_criterio', 'autoevaluaciones', 'evaluaciones_criterio', 'planes_auditoria', 'equipos_auditoria', 'hallazgos', 'capas', 'seguimientos_capa', 'riesgos', 'planes_mitigacion', 'indicadores', 'mediciones_indicador', 'encuestas', 'preguntas_encuesta', 'respuestas_encuesta', 'parametros_sistema'];
 BEGIN
     FOREACH tabla IN ARRAY tablas
     LOOP

@@ -14,15 +14,15 @@ SET search_path TO sgc;
 -- Primero creamos los usuarios, ya que son referenciados por casi todas las tablas
 INSERT INTO usuarios (id, codigo, nombres, apellidos, correo, contrasena_hash, rol, facultad, escuela, activo) VALUES
   -- Usuario Administrador (requerido)
-  ('550e8400-e29b-41d4-a716-446655440000', 'ADMIN001', 'Administrador', 'SGC', 'admin@unitru.edu.pe', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'admin', NULL, NULL, TRUE),
+  ('550e8400-e29b-41d4-a716-446655440000', 'ADMIN001', 'Administrador', 'SGC', 'admin@unitru.edu.pe', '$2a$10$lsSx0KWKH0uWx3Qd8g74sePLpT8Dl6mlqKO4ky.5zjv3hxoVGRbpK', 'admin', NULL, NULL, TRUE),
   -- Gestor de Calidad
-  ('550e8400-e29b-41d4-a716-446655440001', 'GCAL001', 'Gestor', 'Calidad', 'gestor.calidad@unitru.edu.pe', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'gestor_calidad', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE),
+  ('550e8400-e29b-41d4-a716-446655440001', 'GCAL001', 'Gestor', 'Calidad', 'gestor.calidad@unitru.edu.pe', '$2a$10$lsSx0KWKH0uWx3Qd8g74sePLpT8Dl6mlqKO4ky.5zjv3hxoVGRbpK', 'gestor_calidad', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE),
   -- Auditor
-  ('550e8400-e29b-41d4-a716-446655440002', 'AUD001', 'Auditor', 'SGC', 'auditor@unitru.edu.pe', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'auditor', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE),
+  ('550e8400-e29b-41d4-a716-446655440002', 'AUD001', 'Auditor', 'SGC', 'auditor@unitru.edu.pe', '$2a$10$lsSx0KWKH0uWx3Qd8g74sePLpT8Dl6mlqKO4ky.5zjv3hxoVGRbpK', 'auditor', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE),
   -- Docente
-  ('550e8400-e29b-41d4-a716-446655440003', 'DOC001', 'Juan', 'Pérez', 'juan.perez@unitru.edu.pe', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'docente', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE),
+  ('550e8400-e29b-41d4-a716-446655440003', 'DOC001', 'Juan', 'Pérez', 'juan.perez@unitru.edu.pe', '$2a$10$lsSx0KWKH0uWx3Qd8g74sePLpT8Dl6mlqKO4ky.5zjv3hxoVGRbpK', 'docente', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE),
   -- Estudiante
-  ('550e8400-e29b-41d4-a716-446655440004', 'EST001', 'María', 'García', 'maria.garcia@unitru.edu.pe', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'estudiante', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE);
+  ('550e8400-e29b-41d4-a716-446655440004', 'EST001', 'María', 'García', 'maria.garcia@unitru.edu.pe', '$2a$10$lsSx0KWKH0uWx3Qd8g74sePLpT8Dl6mlqKO4ky.5zjv3hxoVGRbpK', 'estudiante', 'Facultad de Ingeniería', 'Ingeniería de Sistemas', TRUE);
 
 -- ==========================================
 -- 2. MAPA DE PROCESOS - MACROPROCESOS

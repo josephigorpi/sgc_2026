@@ -30,6 +30,11 @@ export const AuthProvider = ({ children }) => {
     return data.usuario;
   };
 
+  const register = async (usuarioData) => {
+    const { data } = await axios.post('/api/v1/auth/registrar', usuarioData);
+    return data;
+  };
+
   const logout = () => {
     localStorage.removeItem('sgc_token');
     delete axios.defaults.headers.common['Authorization'];
@@ -38,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout, cargando }}>
+    <AuthContext.Provider value={{ usuario, login, logout, register, cargando }}>
       {children}
     </AuthContext.Provider>
   );

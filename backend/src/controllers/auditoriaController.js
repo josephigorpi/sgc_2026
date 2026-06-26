@@ -60,18 +60,36 @@ export const actualizarHallazgo = async (req, res) => {
 
 export const reporteAuditoria = async (req, res) => {
   try {
+<<<<<<< HEAD
     const planes = await PlanAuditoria.findAll({
       include: [{ model: Hallazgo, as: 'hallazgos' }],
     });
+=======
+    console.log('Getting planes for auditoria report...');
+    const planes = await PlanAuditoria.findAll({
+      include: [{ model: Hallazgo, as: 'hallazgos' }],
+    });
+    console.log('Found planes:', planes.length);
+>>>>>>> companero1/main
     let html = '<table><tr><th>Código</th><th>Nombre</th><th>Tipo</th><th>Estado</th><th>Hallazgos</th></tr>';
     planes.forEach(p => {
       html += `<tr><td>${p.codigo}</td><td>${p.nombre}</td><td>${p.tipo}</td><td>${p.estado}</td><td>${p.hallazgos?.length || 0}</td></tr>`;
     });
     html += '</table>';
+<<<<<<< HEAD
     const pdf = await generarPDF(plantillaReporte('Reporte de Auditorías e Inspecciones', html));
     res.set({ 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename=auditorias.pdf' });
     res.send(pdf);
   } catch (err) {
+=======
+    console.log('Generating PDF...');
+    const pdf = await generarPDF(plantillaReporte('Reporte de Auditorías e Inspecciones', html));
+    console.log('PDF generated, sending...');
+    res.set({ 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename=auditorias.pdf' });
+    res.send(pdf);
+  } catch (err) {
+    console.error('Error in reporteAuditoria:', err);
+>>>>>>> companero1/main
     res.status(500).json({ error: err.message });
   }
 };
