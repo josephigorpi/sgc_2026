@@ -11,8 +11,12 @@ import * as capaCtrl from '../controllers/capaController.js';
 import * as riesgoCtrl from '../controllers/riesgoController.js';
 import * as indCtrl from '../controllers/indicadorController.js';
 import * as encCtrl from '../controllers/encuestaController.js';
+import * as dashboardCtrl from '../controllers/dashboardController.js';
 
 const router = Router();
+
+// Dashboard
+router.get('/dashboard', verificarToken, dashboardCtrl.getDashboardStats);
 
 // Auth
 router.post('/auth/registrar', authCtrl.registrar);

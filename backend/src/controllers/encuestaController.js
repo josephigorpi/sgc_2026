@@ -38,8 +38,6 @@ export const enviarRespuesta = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-<<<<<<< HEAD
-=======
 };
 
 export const obtenerResultados = async (req, res) => {
@@ -54,5 +52,4 @@ export const obtenerResultados = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
->>>>>>> companero1/main
 };

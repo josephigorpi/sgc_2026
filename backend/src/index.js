@@ -21,17 +21,6 @@ app.get('/health', (req, res) => res.json({ status: 'OK', timestamp: new Date(),
 
 const PORT = process.env.PORT || 3001;
 
-<<<<<<< HEAD
-const iniciar = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('✅ PostgreSQL conectado');
-    app.listen(PORT, () => console.log(`🚀 SGC Backend en puerto ${PORT}`));
-  } catch (err) {
-    console.error('❌ Error:', err);
-    process.exit(1);
-  }
-=======
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const iniciar = async (retries = 5, delayMs = 5000) => {
@@ -51,7 +40,6 @@ const iniciar = async (retries = 5, delayMs = 5000) => {
   }
   console.error('❌ No se pudo conectar a PostgreSQL después de múltiples intentos');
   process.exit(1);
->>>>>>> companero1/main
 };
 
 iniciar();
